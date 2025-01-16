@@ -1,7 +1,7 @@
 # TWRP 小米平板5 Pro系列
 基于[小米平板5Pro橙狐设备树](https://github.com/ymdzq/OFRP-device_xiaomi_elish)修改的TWRP设备树  
-参考了sk佬[k40 twrp设备树](https://github.com/sekaiacg/device_xiaomi_alioth-TWRP)，试图把小米平板5 Pro（elish）、小米平板5 Pro 5G（enuma）、小米平板5 Pro 12.4（dagu）都放进来  
-enuma、dagu无设备所以未测试  
+参考了sk佬[k40 twrp设备树](https://github.com/sekaiacg/device_xiaomi_alioth-TWRP)，试图把小米平板5 Pro（elish）、小米平板5 Pro 5G（enuma）、小米平板5 Pro 12.4（dagu）、小米平板6（pipa）都放进来  
+enuma、dagu、pipa无设备所以未测试  
 
 # 如何构建
 下载TWRP源代码，然后用repopick给TWRP源代码打上7679..7683系列补丁，  
@@ -26,4 +26,8 @@ git clone https://github.com/ymdzq/device_xiaomi_elish-TWRP.git elish
 小米平板5Pro 12.4（dagu）  
 ```bash
 . build/envsetup.sh && lunch twrp_dagu-eng && mka bootimage
+```
+小米平板6（pipa）  
+```bash
+. build/envsetup.sh && lunch twrp_pipa-eng && mka bootimage
 ```

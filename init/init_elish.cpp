@@ -98,6 +98,8 @@ void vendor_load_properties() {
       model_property_override("enuma", "Xiaomi Pad 5 Pro 5G");
     } else if (twrp_name == "dagu") {
       model_property_override("dagu", "Xiaomi Pad 5 Pro 12.4");
+    } else if (twrp_name == "pipa") {
+      model_property_override("pipa", "Xiaomi Pad 6");
     } else {
       model_property_override("unknow", "unknow name");
     }

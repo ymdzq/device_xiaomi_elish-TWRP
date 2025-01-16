@@ -6,11 +6,15 @@
 #
 
 PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/twrp_pipa.mk \
     $(LOCAL_DIR)/twrp_dagu.mk \
     $(LOCAL_DIR)/twrp_elish.mk \
     $(LOCAL_DIR)/twrp_enuma.mk
 
 COMMON_LUNCH_CHOICES := \
+    twrp_pipa-user \
+    twrp_pipa-userdebug \
+    twrp_pipa-eng \
     twrp_dagu-user \
     twrp_dagu-userdebug \
     twrp_dagu-eng \
