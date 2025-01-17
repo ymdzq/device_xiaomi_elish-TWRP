@@ -106,7 +106,7 @@ TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_elish
 TARGET_RECOVERY_DEVICE_MODULES := libinit_elish
 
 # Recovery
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
 # Crypto
 TW_INCLUDE_CRYPTO := true
@@ -143,9 +143,9 @@ ifeq ($(TW_DEFAULT_LANGUAGE),)
 TW_DEFAULT_LANGUAGE := zh_CN
 endif
 TW_DEFAULT_BRIGHTNESS := 200
-TW_SCREEN_BLANK_ON_BOOT := true
+TW_NO_SCREEN_BLANK := true
 TW_EXCLUDE_APEX := true
-TW_HAS_EDL_MODE := true
+TW_HAS_EDL_MODE := false
 TW_CUSTOM_CPU_TEMP_PATH := "/sys/class/thermal/thermal_zone1/temp"
 TW_BACKUP_EXCLUSIONS := /data/fonts,/data/adb/ap,/data/adb/ksu
 
