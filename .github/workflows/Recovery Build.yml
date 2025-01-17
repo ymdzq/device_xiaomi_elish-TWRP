@@ -46,7 +46,7 @@ on:
         options:
         - boot
         - recovery
-        - vendor_boot
+        - vendorboot
 
 jobs:
   build:
@@ -106,11 +106,19 @@ jobs:
         echo "BUILD_DATE=$(TZ=Asia/Manila date +%Y%m%d)" >> $GITHUB_ENV
         cd ${GITHUB_WORKSPACE}/twrp
 
+        if [ ${{ inputs.BUILD_TARGET }} == 'recovery' ]; then
+           echo "BUILD_TARGET_NAME=recovery" >> $GITHUB_ENV
+        elif [ ${{ inputs.BUILD_TARGET }} == 'boot' ]; then
+           echo "BUILD_TARGET_NAME=boot" >> $GITHUB_ENV
+        else
+           echo "BUILD_TARGET_NAME=vendor_boot" >> $GITHUB_ENV
+        fi
+
     - name: Upload to Release
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          twrp/out/target/product/${{ inputs.DEVICE_NAME }}/${{ inputs.BUILD_TARGET }}.img
+          twrp/out/target/product/${{ inputs.DEVICE_NAME }}/${{ env.BUILD_TARGET_NAME }}.img
           twrp/out/target/product/${{ inputs.DEVICE_NAME }}/*.zip
         name: Unofficial TWRP for ${{ inputs.MAKEFILE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
