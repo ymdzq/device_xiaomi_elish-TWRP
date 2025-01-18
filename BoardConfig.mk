@@ -161,3 +161,6 @@ TW_LOAD_VENDOR_MODULES := "exfat.ko"
 
 # Theme
 TW_STATUS_ICONS_ALIGN := center
+
+# Serialno
+TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID := true
