@@ -38,6 +38,12 @@ on:
         description: 'Specify your Device Makefile Name'
         required: true
         default: 'twrp_elish'
+        type: choice
+        options:
+        - twrp_elish
+        - twrp_enuma
+        - twrp_dagu
+        - twrp_pipa
       BUILD_TARGET:
         description: 'Specify your Build Target'
         required: true
