@@ -25,7 +25,7 @@ on:
       DEVICE_TREE_BRANCH:
         description: 'TWRP Device Tree Branch'
         required: true
-        default: 'android-12.1_a15'
+        default: 'android-12.1'
       DEVICE_PATH:
         description: 'Specify your Device Path'
         required: true
@@ -53,18 +53,23 @@ on:
         - boot
         - recovery
         - vendorboot
+      USE_CCACHE:
+        description: Use ccache for compilation
+        type: boolean
+        required: true
+        default: true
 
 jobs:
   build:
     name: Build TWRP by ${{ github.actor }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     permissions:
       contents: write
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Clean-up
       uses: rokibhasansagar/slimhub_actions@main
@@ -72,7 +77,7 @@ jobs:
     - name: Swap Space
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 24
+        swap-size-gb: 12
 
     - name: Build Environment
       run: |
@@ -80,6 +85,13 @@ jobs:
         git clone https://github.com/akhilnarang/scripts.git -b master
         cd scripts
         sudo bash setup/android_build_env.sh
+
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      if: inputs.USE_CCACHE
+      with:
+        max-size: "10G"
+        key: ${{ runner.os }}-${{ inputs.MANIFEST_BRANCH }}
 
     - name: Set-up Manifest
       run: |
@@ -102,6 +114,11 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}/twrp
         set +e
+        if [[ ${{ inputs.USE_CCACHE }} == true ]]; then
+        export USE_CCACHE=1
+        export CCACHE_EXEC=/usr/bin/ccache
+        sed -i 's/return sandboxConfig\.working/return false/g' build/soong/ui/build/sandbox_linux.go
+        fi
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         set -e
@@ -109,7 +126,7 @@ jobs:
 
     - name: Set Release Properties
       run: |
-        echo "BUILD_DATE=$(TZ=Asia/Manila date +%Y%m%d)" >> $GITHUB_ENV
+        echo "BUILD_DATE=$(TZ=Asia/Shanghai date +%Y%m%d)" >> $GITHUB_ENV
         cd ${GITHUB_WORKSPACE}/twrp
 
         if [ ${{ inputs.BUILD_TARGET }} == 'recovery' ]; then
@@ -121,7 +138,7 @@ jobs:
         fi
 
     - name: Upload to Release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@master
       with:
         files: |
           twrp/out/target/product/${{ inputs.DEVICE_NAME }}/${{ env.BUILD_TARGET_NAME }}.img
